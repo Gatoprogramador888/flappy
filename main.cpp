@@ -24,13 +24,14 @@ void gotoxy(int x, int y) {//ancho 80 alto 25 gotoxy puede actualizarse con una 
 
 class Bird {
 private:
-	const int X = 2;
-	int Y = 10;
 	char teclado = 0;
 	char tecla = 32;
 	char newtecla = 0;
 
 public:
+
+	const int X = 2;
+	int Y = 10;
 
 	void drawBird() {
 		gotoxy(X, Y); cout << ("<(O>O)>");//3 de distancia
@@ -49,14 +50,6 @@ public:
 		}
 	}
 
-	int PosY() {
-		return Y;
-	}
-
-	int PosX() {
-		return X;
-	}
-
 	void SetTecla() {
 		cout << "Presione la tecla con la que quiera usar el salto";
 		newtecla = _getch();
@@ -71,7 +64,7 @@ public:
 class Tubos {
 private:
 
-	int Y = rand() % 15+7;
+	int Y = rand() % 15+5;
 	int X;
 
 public:
@@ -91,7 +84,10 @@ public:
 
 	void Reinicio() {
 		if (X != 0)X--;
-		else X = 60;
+		else {
+			X = 60;
+			Y = rand() % 15 + 5;
+		}
 	}
 
 	int GetX() {
@@ -126,14 +122,14 @@ private:
 	void Puntaje(Bird bird, Tubos tubos[4], int* puntaje, bool* perder) {
 		gotoxy(70, 1); cout << "Puntaje: " << *puntaje;
 		for (int i = 0; i < 4; i++) {
-			if (bird.PosX() == tubos[i].GetX()) {
-				if ((bird.PosY() >= tubos[i].GetY()-1) && (bird.PosY() <= tubos[i].GetY() + 5)) {
+			if (bird.X == tubos[i].GetX()) {
+				if ((bird.Y >= tubos[i].GetY()-1) && (bird.Y <= tubos[i].GetY() + 5)) {
 					*puntaje += 1;
 				}
 				else {
 					*perder = false;
 				}
-			}else if(bird.PosY() >= 26) {
+			}else if(bird.Y >= 26) {
 				*perder = false;
 			}
 		}
